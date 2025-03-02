@@ -3,6 +3,7 @@ import { Prompt } from "next/font/google";
 import "../../globals.css";
 import { getCurrentSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { Toaster } from "sonner";
 
 const prompt = Prompt({
   weight: "400",
@@ -25,7 +26,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${prompt.className} antialiased`}>{children}</body>
+      <body
+        className={`${prompt.className} antialiased w-full h-screen max-h-screen flex justify-center items-center`}
+      >
+        {children}
+        <Toaster richColors toastOptions={{ className: prompt.className }} />
+      </body>
     </html>
   );
 }
