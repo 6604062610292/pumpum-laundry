@@ -17,6 +17,15 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   orders Order[]
+  sessions Session[]
+}
+
+model Session {
+  id String @id
+  userId Int
+  expiresAt DateTime
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 }
 
 enum Role {
