@@ -1,3 +1,5 @@
+import LoginForm from "@/app/components/auth/login/LoginForm";
+
 export default async function Home() {
-  return <div></div>;
+  return <LoginForm />;
 }
