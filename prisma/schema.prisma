@@ -41,6 +41,7 @@ model Order {
   queue_number Int @unique
   status OrderStatus @default(PENDING)
   total_price Decimal @db.Decimal(10, 2)
+  booking_date DateTime
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
   items OrderItem[]
