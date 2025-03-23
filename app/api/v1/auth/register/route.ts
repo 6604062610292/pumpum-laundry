@@ -23,7 +23,7 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const { name, email, password, phone_number } = userBody.data;
+    const { name, surname, email, password, phone_number } = userBody.data;
 
     // Check if email is in-use
     const email_exist = await prisma.user.findUnique({
@@ -45,7 +45,7 @@ export const POST = async (req: NextRequest) => {
     // Check if name already exist
     const name_exist = await prisma.user.findFirst({
       where: {
-        name: name,
+        name: name + " " + surname,
       },
     });
     if (name_exist) {
@@ -67,7 +67,7 @@ export const POST = async (req: NextRequest) => {
     const new_user = await prisma.user.create({
       data: {
         email,
-        name,
+        name: name + " " + surname,
         hashed_password,
         phone: phone_number,
       },
