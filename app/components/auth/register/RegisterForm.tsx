@@ -71,9 +71,22 @@ export default function RegisterForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>ชื่อเล่น</FormLabel>
+                <FormLabel>ชื่อจริง (ไม่มีคำนำหน้า)</FormLabel>
                 <FormControl>
                   <Input placeholder="กรอกชื่อเล่น" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {/* Surname */}
+          <FormField
+            control={form.control}
+            name="surname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>นามสกุล</FormLabel>
+                <FormControl>
+                  <Input placeholder="นามสกุล" {...field} />
                 </FormControl>
               </FormItem>
             )}
