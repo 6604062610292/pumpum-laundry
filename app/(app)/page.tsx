@@ -1,5 +1,5 @@
 import { getCurrentSession } from "@/lib/auth";
-import { MonitorCog, Shirt, UserRoundPen } from "lucide-react";
+import { MonitorCog, Shirt, UserRoundPen, WashingMachine } from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -17,13 +17,13 @@ export default async function Home() {
             {/* จองคิว */}
             <LargeNavigationButton
               label="จองคิว"
-              icon=<Shirt size={32} />
-              href="/new-queue"
+              icon=<Shirt size={40} />
+              href="/queue"
             />
             {/* Profile */}
             <LargeNavigationButton
               label="โปรไฟล์"
-              icon=<UserRoundPen size={32} />
+              icon=<UserRoundPen size={40} />
               href="/profile"
             />
             {/* Admin */}
@@ -32,8 +32,14 @@ export default async function Home() {
                 {/* Manage queue */}
                 <LargeNavigationButton
                   label="จัดการคิว"
-                  icon=<MonitorCog size={32} />
+                  icon=<MonitorCog size={40} />
                   href="/admin/queue"
+                />
+                {/* Manage machine */}
+                <LargeNavigationButton
+                  label="จัดการเครื่อง"
+                  icon=<WashingMachine size={40} />
+                  href="/admin/machines"
                 />
               </>
             )}
@@ -54,9 +60,9 @@ interface Props {
 const LargeNavigationButton = ({ icon, label, href }: Props) => {
   return (
     <Link href={href} passHref>
-      <div className="p-4 bg-white w-full grid rounded-md gap-1 shadow-lg items-start hover hover:bg-accent hover:cursor-pointer transition-colors duration-200">
-        <div className="mx-auto text-blue-600">{icon}</div>
-        <p className="text-xl text-blue-600 text-center">{label}</p>
+      <div className="p-4 bg-white w-full grid rounded-md gap-y-1.5 shadow-lg items-start hover hover:bg-accent hover:cursor-pointer transition-colors duration-200">
+        <div className="mx-auto text-blue-500">{icon}</div>
+        <p className="text-xl text-blue-500 text-center">{label}</p>
       </div>
     </Link>
   );
