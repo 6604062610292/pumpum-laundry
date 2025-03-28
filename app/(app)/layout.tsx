@@ -3,6 +3,7 @@ import { Prompt } from "next/font/google";
 import "../globals.css";
 import { getCurrentSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import Navigation from "../components/Navigation";
 
 const prompt = Prompt({
   weight: "400",
@@ -25,7 +26,10 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${prompt.className} antialiased`}>{children}</body>
+      <body className={`${prompt.className} antialiased bg-blue-50`}>
+        {children}
+        <Navigation />
+      </body>
     </html>
   );
 }

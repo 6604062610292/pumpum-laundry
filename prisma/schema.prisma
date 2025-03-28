@@ -34,6 +34,13 @@ enum Role {
   ADMIN
 }
 
+model Product {
+  id Int @id @default(autoincrement())
+  name String
+  price Decimal @db.Decimal(10, 2)
+  items OrderItem[]
+}
+
 model Order {
   id Int @id @default(autoincrement())
   user_id Int
@@ -61,7 +68,8 @@ model OrderItem {
   id Int @id @default(autoincrement())
   order_id Int
   order Order @relation(fields: [order_id], references: [id])
-  description String
+  product_id Int
+  product Product @relation(fields: [product_id], references: [id])
   quantity Int
   price Decimal @db.Decimal(10, 2)
 }
@@ -86,11 +94,4 @@ enum PaymentStatus {
   PENDING
   COMPLETED
   FAILED
-}
-
-model QueueSettings {
-  id Int @id @default(autoincrement())
-  max_queue_per_day Int
-  current_queue Int @default(0)
-  date DateTime @unique
 }

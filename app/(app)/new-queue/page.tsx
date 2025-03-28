@@ -1,14 +1,5 @@
-import CustomerQueueForm from "@/app/components/queue/CustomerQueueForm";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import CustomerQueueForm from "@/app/components/new-queue/CustomerQueueForm";
 import { getCurrentSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 
 export default async function Page() {
   const { user } = await getCurrentSession();
@@ -21,25 +12,13 @@ export default async function Page() {
     );
   }
 
-  const queue = await prisma.order.findMany({
-    where: {
-      user_id: user.id,
-    },
-    take: 10,
-    orderBy: [
-      {
-        id: "desc",
-      },
-    ],
-  });
-
   return (
-    <main className="h-screen w-full p-6">
-      <div className="border shadow-xs rounded-md container mx-auto space-y-2 p-6 max-w-lg lg:max-w-2xl">
+    <main className="h-screen w-full flex justify-center items-center p-6">
+      <div className="bg-white shadow-lg rounded-md container mx-auto space-y-2 p-6 max-w-lg lg:max-w-2xl">
         {/* Form */}
         <CustomerQueueForm user_id={user.id} />
         {/* Queue Table */}
-        <h2 className="text-xl">ประวัติการจอง</h2>
+        {/* <h2 className="text-xl">ประวัติการจอง</h2>
         <Table>
           <TableHeader>
             <TableRow>
@@ -53,7 +32,7 @@ export default async function Page() {
               </TableRow>
             ))}
           </TableBody>
-        </Table>
+        </Table> */}
       </div>
     </main>
   );

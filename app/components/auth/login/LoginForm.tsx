@@ -20,6 +20,10 @@ import Link from "next/link";
 export default function LoginForm() {
   const form = useForm<z.infer<typeof ZLoginSchema>>({
     resolver: zodResolver(ZLoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof ZLoginSchema>) {

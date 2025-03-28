@@ -16,10 +16,20 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function RegisterForm() {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof ZRegisterSchema>>({
     resolver: zodResolver(ZRegisterSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+      password: "",
+      phone_number: "",
+      surname: "",
+    },
   });
 
   async function onSubmit(values: z.infer<typeof ZRegisterSchema>) {
@@ -32,6 +42,7 @@ export default function RegisterForm() {
         toast.success("สมัครสมาชิกสำเร็จ", {
           id: "register-toast",
         });
+        router.push("/");
       })
       .catch(() => {
         toast.error("เกิดข้อผิดพลาด", {
