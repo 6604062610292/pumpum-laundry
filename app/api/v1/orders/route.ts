@@ -1,10 +1,10 @@
 import { prisma } from "@/lib/prisma";
-import { ZOrderSchema } from "@/lib/schema/order.schema";
+import { ZCustomerQueueSchema } from "@/lib/schema/order.schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const POST = async (req: NextRequest) => {
   const formBody = await req.json();
-  const userBody = ZOrderSchema.safeParse(formBody);
+  const userBody = ZCustomerQueueSchema.safeParse(formBody);
   if (!userBody.success) {
     return NextResponse.json(
       {
