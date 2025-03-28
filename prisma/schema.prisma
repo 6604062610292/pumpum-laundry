@@ -16,8 +16,8 @@ model User {
   role Role @default(CUSTOMER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
-  orders Order[]
   sessions Session[]
+  queues Queue[]
 }
 
 model Session {
@@ -31,67 +31,31 @@ model Session {
 enum Role {
   CUSTOMER
   STAFF
-  ADMIN
 }
 
-model Product {
+model Queue {
+  id String @id @default(cuid())
+  queue_date DateTime
+  startTime DateTime
+  endTime DateTime?
+  userId Int
+  machineId Int?
+  status QueueStatus @default(PENDING)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  machine Machine? @relation(fields: [machineId], references: [id], onDelete: SetNull)
+}
+
+enum QueueStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+model Machine {
   id Int @id @default(autoincrement())
   name String
-  price Decimal @db.Decimal(10, 2)
-  items OrderItem[]
-}
-
-model Order {
-  id Int @id @default(autoincrement())
-  user_id Int
-  user User @relation(fields: [user_id], references: [id])
-  queue_number Int @unique
-  status OrderStatus @default(PENDING)
-  total_price Decimal @db.Decimal(10, 2)
-  booking_date DateTime
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  items OrderItem[]
-  payment Payment?
-}
-
-enum OrderStatus {
-  PENDING      // รอดำเนินการ
-  IN_PROGRESS  // กำลังซัก
-  WASHED       // ซักเสร็จ
-  READY        // พร้อมรับ
-  COMPLETED    // เสร็จสมบูรณ์
-  CANCELLED    // ยกเลิก
-}
-
-model OrderItem {
-  id Int @id @default(autoincrement())
-  order_id Int
-  order Order @relation(fields: [order_id], references: [id])
-  product_id Int
-  product Product @relation(fields: [product_id], references: [id])
-  quantity Int
-  price Decimal @db.Decimal(10, 2)
-}
-
-model Payment {
-  id Int @id @default(autoincrement())
-  order_id Int @unique
-  order Order @relation(fields: [order_id], references: [id])
-  amount Decimal @db.Decimal(10, 2)
-  method PaymentMethod
-  status PaymentStatus
-  paid_at DateTime @default(now())
-}
-
-enum PaymentMethod {
-  CASH
-  CREDIT_CARD
-  MOBILE_PAYMENT
-}
-
-enum PaymentStatus {
-  PENDING
-  COMPLETED
-  FAILED
+  is_available Boolean @default(true)
+  queues Queue[]
 }
