@@ -16,8 +16,10 @@ import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const form = useForm<z.infer<typeof ZLoginSchema>>({
     resolver: zodResolver(ZLoginSchema),
     defaultValues: {
@@ -36,6 +38,7 @@ export default function LoginForm() {
         toast.success("เข้าสู่ระบบสำเร็จ", {
           id: "login-toast",
         });
+        router.push("/");
       })
       .catch(() => {
         toast.error("เกิดข้อผิดพลาด", {
