@@ -8,45 +8,60 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { ZOrderSchema } from "@/lib/schema/order.schema";
+import { ZCustomerQueueSchema } from "@/lib/schema/order.schema";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon, Trash } from "lucide-react";
-import { useFieldArray, useForm } from "react-hook-form";
+import { CalendarIcon } from "lucide-react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { TimePickerDemo } from "../datetime-picker/time-picker-demo";
+import { toast } from "sonner";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Props = {
   user_id: number;
 };
 
 export default function CustomerQueueForm({ user_id }: Props) {
-  const form = useForm<z.infer<typeof ZOrderSchema>>({
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof ZCustomerQueueSchema>>({
     defaultValues: {
-      booking_date: new Date().toString(),
-      items: [],
+      booking_date: new Date(),
       user_id: user_id,
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: "items",
-  });
-
-  async function onSubmit(values: z.infer<typeof ZOrderSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof ZCustomerQueueSchema>) {
+    toast.loading("กำลังจองคิว", {
+      id: "form-toast",
+    });
+    await axios
+      .post("/api/v1/queues", values)
+      .then(() => {
+        toast.success("จองคิวสำเร็จ", {
+          id: "form-toast",
+        });
+        router.refresh();
+        form.reset();
+      })
+      .catch(() => {
+        toast.error("เกิดข้อผิดพลาด", {
+          id: "form-toast",
+        });
+      });
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
+      <h1 className="text-4xl">จองคิว</h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Book date picker */}
@@ -55,126 +70,47 @@ export default function CustomerQueueForm({ user_id }: Props) {
             name="booking_date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel>วันที่จอง</FormLabel>
+                <FormLabel className="text-left text-lg">เลือกเวลา</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
+                  <FormControl>
+                    <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
+                        variant="outline"
                         className={cn(
-                          "w-[240px] pl-3 text-left font-normal",
+                          "w-[280px] justify-start text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, "PPP")
+                          format(field.value, "PPP HH:mm:ss")
                         ) : (
                           <span>Pick a date</span>
                         )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
+                    </PopoverTrigger>
+                  </FormControl>
+                  <PopoverContent className="w-auto p-0">
                     <Calendar
                       mode="single"
-                      selected={new Date(field.value)}
+                      selected={field.value}
                       onSelect={field.onChange}
-                      disabled={(date) =>
-                        date < new Date() || date < new Date("1900-01-01")
-                      }
                       initialFocus
                     />
+                    <div className="p-3 border-t border-border">
+                      <TimePickerDemo
+                        setDate={field.onChange}
+                        date={field.value}
+                      />
+                    </div>
                   </PopoverContent>
                 </Popover>
-                <FormMessage />
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="items"
-            render={() => (
-              <div>
-                {fields.map((field, index) => (
-                  <FormItem
-                    key={field.id}
-                    className="flex items-end space-x-4 mb-4"
-                  >
-                    <FormField
-                      control={form.control}
-                      name={`items.${index}.description`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>คำอธิบาย</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g., เสื้อยืด" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name={`items.${index}.quantity`}
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>จำนวน</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="number"
-                              {...field}
-                              onChange={(e) =>
-                                field.onChange(parseInt(e.target.value) || 1)
-                              }
-                              className="max-w-[80px]"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button
-                      type="button"
-                      variant="destructive"
-                      size="icon"
-                      onClick={() => remove(index)}
-                    >
-                      <Trash />
-                    </Button>
-                  </FormItem>
-                ))}
-                <Button
-                  type="button"
-                  className="hover:cursor-pointer bg-green-600 hover:bg-green-700"
-                  onClick={() =>
-                    append({ description: "", quantity: 1, price: 10 })
-                  }
-                >
-                  เพิ่มรายการ
-                </Button>
-              </div>
-            )}
-          />
-          {/* Summary */}
-          <div className="p-2 border rounded-md">
-            <div>
-              <p className="text-zinc-600">ยอดรวม</p>
-              <p className="text-lg">
-                {form
-                  .getValues("items")
-                  .reduce((sum, item) => sum + item.quantity * item.price, 0)
-                  .toFixed(2)}{" "}
-                บาท
-              </p>
-            </div>
-          </div>
           {/* Submit */}
-          <Button
-            className="btn-blue w-full"
-            disabled={form.getValues("items").length === 0}
-          >
-            บันทึก
+          <Button size="lg" className="btn-blue text-lg w-full">
+            จองคิว
           </Button>
         </form>
       </Form>
