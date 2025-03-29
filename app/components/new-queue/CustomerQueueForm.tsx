@@ -96,6 +96,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
                       selected={field.value}
                       onSelect={field.onChange}
                       initialFocus
+                      fromDate={new Date()}
                     />
                     <div className="p-3 border-t border-border">
                       <TimePickerDemo

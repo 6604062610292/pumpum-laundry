@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { ZMachineSchema } from "@/lib/schema/machine.schema";
@@ -61,10 +67,11 @@ export default function MachineForm() {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
+              render={({ field, fieldState }) => (
                 <FormItem>
                   <FormLabel className="text-lg">ชื่อเครื่อง</FormLabel>
                   <Input {...field} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormItem>
               )}
             />

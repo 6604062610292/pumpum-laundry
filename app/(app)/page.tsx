@@ -1,5 +1,11 @@
 import { getCurrentSession } from "@/lib/auth";
-import { MonitorCog, Shirt, UserRoundPen, WashingMachine } from "lucide-react";
+import {
+  ListStart,
+  MonitorCog,
+  Shirt,
+  UserRoundPen,
+  WashingMachine,
+} from "lucide-react";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -19,6 +25,12 @@ export default async function Home() {
               label="จองคิว"
               icon=<Shirt size={40} />
               href="/queue"
+            />
+            {/* คิวของฉัน */}
+            <LargeNavigationButton
+              label="คิวของฉัน"
+              icon=<ListStart size={40} />
+              href="/my-queue"
             />
             {/* Profile */}
             <LargeNavigationButton
