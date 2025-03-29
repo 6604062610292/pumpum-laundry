@@ -10,6 +10,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -17,6 +18,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -28,6 +30,7 @@ export default function RegisterForm() {
       name: "",
       password: "",
       phone_number: "",
+      address: "",
       surname: "",
     },
   });
@@ -80,11 +83,12 @@ export default function RegisterForm() {
           <FormField
             control={form.control}
             name="name"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>ชื่อจริง (ไม่มีคำนำหน้า)</FormLabel>
                 <FormControl>
                   <Input placeholder="กรอกชื่อเล่น" {...field} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
               </FormItem>
             )}
@@ -93,11 +97,12 @@ export default function RegisterForm() {
           <FormField
             control={form.control}
             name="surname"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>นามสกุล</FormLabel>
                 <FormControl>
                   <Input placeholder="นามสกุล" {...field} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
               </FormItem>
             )}
@@ -106,7 +111,7 @@ export default function RegisterForm() {
           <FormField
             control={form.control}
             name="password"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>รหัสผ่าน</FormLabel>
                 <FormControl>
@@ -115,6 +120,21 @@ export default function RegisterForm() {
                     placeholder="กรอกรหัสผ่าน"
                     {...field}
                   />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          {/* Address */}
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field, fieldState }) => (
+              <FormItem>
+                <FormLabel>ที่อยู่</FormLabel>
+                <FormControl>
+                  <Textarea {...field} />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
               </FormItem>
             )}
@@ -123,7 +143,7 @@ export default function RegisterForm() {
           <FormField
             control={form.control}
             name="phone_number"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem>
                 <FormLabel>เบอร์โทรศัพท์</FormLabel>
                 <FormControl>
@@ -133,6 +153,7 @@ export default function RegisterForm() {
                     placeholder="กรอกเบอร์โทรศัพท์"
                     {...field}
                   />
+                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
               </FormItem>
             )}
