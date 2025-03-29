@@ -30,6 +30,7 @@ export function DateTimePicker() {
     const diff = newDay.getTime() - date.getTime();
     const diffInDays = diff / (1000 * 60 * 60 * 24);
     const newDateFull = add(date, { days: Math.ceil(diffInDays) });
+    newDateFull.setSeconds(0);
     setDate(newDateFull);
   };
 
@@ -44,7 +45,7 @@ export function DateTimePicker() {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP HH:mm:ss") : <span>Pick a date</span>}
+          {date ? format(date, "PPP HH:mm") : <span>Pick a date</span>}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">

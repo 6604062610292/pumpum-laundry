@@ -83,7 +83,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, "PPP HH:mm:ss")
+                          format(field.value, "PPP HH:mm")
                         ) : (
                           <span>Pick a date</span>
                         )}
