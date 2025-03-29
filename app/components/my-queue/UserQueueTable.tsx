@@ -33,6 +33,14 @@ export default function UserQueueTable({ data }: Props) {
             <TableCell>{q.status.toString()}</TableCell>
           </TableRow>
         ))}
+        {/* No row */}
+        {data.length === 0 && (
+          <TableRow>
+            <TableCell colSpan={3} align="center">
+              ไม่มีข้อมูล
+            </TableCell>
+          </TableRow>
+        )}
       </TableBody>
     </Table>
   );

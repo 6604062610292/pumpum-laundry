@@ -23,7 +23,8 @@ export const POST = async (req: NextRequest) => {
   }
 
   try {
-    const { name, surname, email, password, phone_number } = userBody.data;
+    const { name, surname, email, password, address, phone_number } =
+      userBody.data;
 
     // Check if email is in-use
     const email_exist = await prisma.user.findUnique({
@@ -70,6 +71,7 @@ export const POST = async (req: NextRequest) => {
         name: name + " " + surname,
         hashed_password,
         phone: phone_number,
+        address,
       },
     });
 

@@ -24,6 +24,7 @@ import { TimePickerDemo } from "../datetime-picker/time-picker-demo";
 import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import BackButton from "../BackButton";
 
 type Props = {
   user_id: number;
@@ -49,7 +50,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
         toast.success("จองคิวสำเร็จ", {
           id: "form-toast",
         });
-        router.refresh();
+        router.push("/my-queue");
         form.reset();
       })
       .catch(() => {
@@ -61,7 +62,10 @@ export default function CustomerQueueForm({ user_id }: Props) {
 
   return (
     <div className="space-y-2">
-      <h1 className="text-4xl">จองคิว</h1>
+      <div className="flex justify-between">
+        <h1 className="text-3xl">จองคิว</h1>
+        <BackButton />
+      </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
           {/* Book date picker */}

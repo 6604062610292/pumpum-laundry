@@ -44,7 +44,7 @@ export const POST = async (req: NextRequest) => {
       data: {
         name,
         email,
-        // TODO: address
+        address,
         phone,
       },
     });

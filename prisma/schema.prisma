@@ -13,7 +13,7 @@ model User {
   hashed_password String
   name String
   phone String?
-  address String? @db.VarChar(255)
+  address String @db.VarChar(255)
   role Role @default(CUSTOMER)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

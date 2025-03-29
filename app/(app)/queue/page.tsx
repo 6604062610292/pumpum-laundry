@@ -5,8 +5,8 @@ export default async function Page() {
   const { user } = await getCurrentSession();
 
   return (
-    <main className="h-screen w-full flex justify-end items-center p-6">
-      <div className="bg-white w-full p-6 rounded-lg shadow-lg">
+    <main className="h-screen w-full flex justify-center items-center p-6">
+      <div className="bg-white w-full p-6 rounded-lg shadow-lg md:max-w-md">
         <CustomerQueueForm user_id={user!.id} />
       </div>
     </main>

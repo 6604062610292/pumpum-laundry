@@ -12,7 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ZUserSchema } from "@/lib/schema/user.schema";
 import { User } from "@prisma/client";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 type Props = {
@@ -20,9 +23,11 @@ type Props = {
 };
 
 export default function UserForm({ user }: Props) {
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof ZUserSchema>>({
     defaultValues: {
-      address: "",
+      address: user.address,
       email: user.email,
       name: user.name,
       phone: user.phone ?? "",
@@ -31,7 +36,22 @@ export default function UserForm({ user }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof ZUserSchema>) {
-    console.log(values);
+    toast.loading("กำลังจองคิว", {
+      id: "form-toast",
+    });
+    await axios
+      .post("/api/v1/users", values)
+      .then(() => {
+        toast.success("จองคิวสำเร็จ", {
+          id: "form-toast",
+        });
+        router.refresh();
+      })
+      .catch(() => {
+        toast.error("เกิดข้อผิดพลาด", {
+          id: "form-toast",
+        });
+      });
   }
 
   return (

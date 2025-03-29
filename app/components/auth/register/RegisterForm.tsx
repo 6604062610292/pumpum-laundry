@@ -85,11 +85,11 @@ export default function RegisterForm() {
             name="name"
             render={({ field, fieldState }) => (
               <FormItem>
-                <FormLabel>ชื่อจริง (ไม่มีคำนำหน้า)</FormLabel>
+                <FormLabel>ชื่อจริง</FormLabel>
                 <FormControl>
-                  <Input placeholder="กรอกชื่อเล่น" {...field} />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
+                  <Input placeholder="ชื่อจริง" {...field} />
                 </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
@@ -102,8 +102,8 @@ export default function RegisterForm() {
                 <FormLabel>นามสกุล</FormLabel>
                 <FormControl>
                   <Input placeholder="นามสกุล" {...field} />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
@@ -120,8 +120,8 @@ export default function RegisterForm() {
                     placeholder="กรอกรหัสผ่าน"
                     {...field}
                   />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
@@ -134,8 +134,8 @@ export default function RegisterForm() {
                 <FormLabel>ที่อยู่</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
@@ -153,8 +153,8 @@ export default function RegisterForm() {
                     placeholder="กรอกเบอร์โทรศัพท์"
                     {...field}
                   />
-                  <FormMessage>{fieldState.error?.message}</FormMessage>
                 </FormControl>
+                <FormMessage>{fieldState.error?.message}</FormMessage>
               </FormItem>
             )}
           />
