@@ -8,6 +8,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import {
   Popover,
@@ -20,11 +21,19 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { TimePickerDemo } from "../datetime-picker/time-picker-demo";
 import { toast } from "sonner";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import BackButton from "../BackButton";
+import moment from "moment";
+import { useState } from "react";
+import { Machine } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 type Props = {
   user_id: number;
@@ -32,6 +41,7 @@ type Props = {
 
 export default function CustomerQueueForm({ user_id }: Props) {
   const router = useRouter();
+  const [availableMachine, setAvailableMachine] = useState<Machine[]>([]);
 
   const form = useForm<z.infer<typeof ZCustomerQueueSchema>>({
     defaultValues: {
@@ -60,6 +70,18 @@ export default function CustomerQueueForm({ user_id }: Props) {
       });
   }
 
+  async function getAvailableMachines() {
+    try {
+      const response = await axios.get(
+        `/api/v1/machines/available/${form.getValues().booking_date}`
+      );
+      console.log(response.data);
+      setAvailableMachine(response.data["data"] ?? []);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <div className="space-y-2">
       <div className="flex justify-between">
@@ -74,47 +96,83 @@ export default function CustomerQueueForm({ user_id }: Props) {
             name="booking_date"
             render={({ field }) => (
               <FormItem className="flex flex-col">
-                <FormLabel className="text-left text-lg">เลือกเวลา</FormLabel>
+                <FormLabel>วันที่จอง</FormLabel>
                 <Popover>
-                  <FormControl>
-                    <PopoverTrigger asChild>
+                  <PopoverTrigger asChild>
+                    <FormControl>
                       <Button
-                        variant="outline"
+                        variant={"outline"}
                         className={cn(
-                          "w-[280px] justify-start text-left font-normal",
+                          "w-[240px] pl-3 text-left font-normal",
                           !field.value && "text-muted-foreground"
                         )}
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
                         {field.value ? (
-                          format(field.value, "PPP HH:mm")
+                          format(field.value, "PPP")
                         ) : (
                           <span>Pick a date</span>
                         )}
+                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                       </Button>
-                    </PopoverTrigger>
-                  </FormControl>
-                  <PopoverContent className="w-auto p-0">
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
                     <Calendar
                       mode="single"
                       selected={field.value}
                       onSelect={field.onChange}
+                      disabled={(date) =>
+                        moment(date)
+                          .startOf("day")
+                          .isBefore(moment().startOf("day"))
+                      }
                       initialFocus
-                      fromDate={new Date()}
                     />
-                    <div className="p-3 border-t border-border">
-                      <TimePickerDemo
-                        setDate={field.onChange}
-                        date={field.value}
-                      />
-                    </div>
                   </PopoverContent>
                 </Popover>
+                <FormMessage />
               </FormItem>
             )}
           />
+          {/* Machine dropdown */}
+          <FormField
+            control={form.control}
+            name="machine_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>เครื่องซัก</FormLabel>
+                <Select onValueChange={field.onChange}>
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {availableMachine &&
+                      availableMachine.map((am) => (
+                        <SelectItem key={am.id} value={am.id.toString()}>
+                          {am.name}
+                        </SelectItem>
+                      ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* Check available machine */}
+          <Button
+            className="bg-orange-400 hover:bg-orange-500"
+            onClick={() => getAvailableMachines()}
+          >
+            ดูเครื่องพร้อมใช้งาน
+          </Button>
           {/* Submit */}
-          <Button size="lg" className="btn-blue text-lg w-full">
+          <Button
+            disabled={form.getValues().machine_id}
+            size="lg"
+            className="btn-blue text-lg w-full"
+          >
             จองคิว
           </Button>
         </form>
