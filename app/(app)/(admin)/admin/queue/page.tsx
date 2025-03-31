@@ -55,6 +55,14 @@ export default async function Page() {
                 <TableCell>{q.status.toString()}</TableCell>
               </TableRow>
             ))}
+            {/* No row */}
+            {queues.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={5} align="center">
+                  ไม่มีคิวในตอนนี้
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
         </Table>
       </div>
