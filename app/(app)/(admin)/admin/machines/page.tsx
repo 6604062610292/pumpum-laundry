@@ -45,7 +45,7 @@ export default async function Page() {
                     machine.is_available ? "text-green-600" : "text-red-600"
                   }
                 >
-                  {machine.is_available ? "ว่าง" : "ไม่ว่าง"}
+                  {machine.is_available ? "ว่าง" : "ทำงานอยู่"}
                 </TableCell>
                 <TableCell>{machine.is_active ? "✅" : "❌"}</TableCell>
               </TableRow>
