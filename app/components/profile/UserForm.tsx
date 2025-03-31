@@ -36,13 +36,13 @@ export default function UserForm({ user }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof ZUserSchema>) {
-    toast.loading("กำลังจองคิว", {
+    toast.loading("กำลังบันทึกข้อมูล", {
       id: "form-toast",
     });
     await axios
       .post("/api/v1/users", values)
       .then(() => {
-        toast.success("จองคิวสำเร็จ", {
+        toast.success("บันทึกสำเร็จ", {
           id: "form-toast",
         });
         router.refresh();
