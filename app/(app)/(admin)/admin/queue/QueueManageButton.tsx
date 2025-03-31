@@ -2,6 +2,7 @@
 
 import {
   AlertDialog,
+  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -69,6 +70,19 @@ export default function QueueManageButton(props: Props) {
     router.refresh();
   }
 
+  async function deleteQueue() {
+    setIsSubmitting(true);
+    const response = await axios.delete(`/api/v1/queues/${queue.id}`);
+    const { error, message } = response.data;
+    if (error) {
+      toast.error(error ?? "เกิดข้อผิดพลาด");
+    } else {
+      toast.success(message);
+    }
+    setIsSubmitting(false);
+    router.refresh();
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -116,14 +130,26 @@ export default function QueueManageButton(props: Props) {
                 </FormItem>
               )}
             />
-            {/* Submit */}
-            <Button
-              type="submit"
-              disabled={isSubmitting}
-              className="bg-green-500 hover:bg-green-600"
-            >
-              บันทึก
-            </Button>
+            <div className="grid grid-cols-2 gap-2 md:gap-3 w-fit">
+              {/* Delete */}
+              <AlertDialogAction asChild>
+                <Button
+                  onClick={deleteQueue}
+                  disabled={isSubmitting}
+                  className="bg-red-500 hover:bg-red-600"
+                >
+                  ลบออกจากระบบ
+                </Button>
+              </AlertDialogAction>
+              {/* Submit */}
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-green-500 hover:bg-green-600"
+              >
+                บันทึก
+              </Button>
+            </div>
           </form>
         </Form>
         <AlertDialogFooter>

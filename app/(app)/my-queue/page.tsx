@@ -18,7 +18,7 @@ export default async function Page() {
 
   return (
     <main className="h-screen w-full items-center flex justify-center p-6">
-      <div className="bg-white w-full p-6 rounded-lg shadow-lg md:max-w-md">
+      <div className="bg-white w-full p-6 rounded-lg shadow-lg md:max-w-lg">
         <div className="flex justify-between">
           <h1 className="text-3xl">คิวของฉัน</h1>
           <BackButton />
