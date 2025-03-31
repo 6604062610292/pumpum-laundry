@@ -8,7 +8,7 @@ import { ZLoginSchema } from "@/lib/schema/auth.schema";
 import { NextRequest, NextResponse } from "next/server";
 import { Scrypt } from "oslo/password";
 
-export const GET = async (req: NextRequest) => {
+export const POST = async (req: NextRequest) => {
   const formBody = await req.json();
   const userBody = ZLoginSchema.safeParse(formBody);
   if (!userBody.success) {
