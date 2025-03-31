@@ -4,6 +4,7 @@ import "../globals.css";
 import { getCurrentSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Navigation from "../components/Navigation";
+import { Toaster } from "sonner";
 
 const prompt = Prompt({
   weight: "400",
@@ -28,6 +29,7 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${prompt.className} antialiased bg-blue-50`}>
         {children}
+        <Toaster richColors position="bottom-right" />
       </body>
     </html>
   );
