@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  hashed_password String
+  name String
+  phone String?
+  address String @db.VarChar(255)
+  role Role @default(CUSTOMER)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  sessions Session[]
+  queues Queue[]
+}
+
+model Session {
+  id String @id
+  userId Int
+  expiresAt DateTime
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+enum Role {
+  CUSTOMER
+  STAFF
+}
+
+model Queue {
+  id String @id @default(cuid())
+  queue_date DateTime
+  startTime DateTime
+  endTime DateTime?
+  userId Int
+  machineId Int?
+  status QueueStatus @default(PENDING)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  machine Machine? @relation(fields: [machineId], references: [id], onDelete: SetNull)
+}
+
+enum QueueStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELED
+}
+
+model Machine {
+  id Int @id @default(autoincrement())
+  name String
+  is_available Boolean @default(true)
+  queues Queue[]
+}

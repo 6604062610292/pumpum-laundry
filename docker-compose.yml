@@ -1,0 +1,13 @@
+services:
+  db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=pumpum_db
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - pumpum_db:/var/lib/mysql
+    ports:
+      - 3306:3306
+
+volumes:
+  pumpum_db:
