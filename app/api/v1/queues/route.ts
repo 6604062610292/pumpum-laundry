@@ -237,6 +237,15 @@ export const DELETE = async (req: NextRequest) => {
           status: 400,
         }
       );
+    } else if (typeof queue_id !== "string") {
+      return NextResponse.json(
+        {
+          error: "Invalid Body",
+        },
+        {
+          status: 400,
+        }
+      );
     }
 
     // Is queue exist?
