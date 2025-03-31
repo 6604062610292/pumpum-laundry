@@ -8,8 +8,10 @@ export const ZCustomerQueueSchema = z.object({
   machine_id: z.number().int().positive(),
 });
 
+export const ZStatusEnum = z.nativeEnum(QueueStatus);
+
 export const ZManageQueueSchema = z.object({
   queue_id: z.string(),
   machine_id: z.number().int().positive(),
-  status: z.nativeEnum(QueueStatus),
+  status: ZStatusEnum,
 });

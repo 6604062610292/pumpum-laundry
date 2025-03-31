@@ -45,9 +45,7 @@ export default async function Page() {
             {queues.map((q) => (
               <TableRow key={q.id}>
                 <TableHead>
-                  <div>
-                    <QueueManageButton queue={q} />
-                  </div>
+                  <QueueManageButton queue={q} />
                 </TableHead>
                 <TableCell>{q.id.slice(0, 5)}</TableCell>
                 <TableCell>{filterName(q.user.name)}</TableCell>
