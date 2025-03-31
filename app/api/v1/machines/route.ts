@@ -44,3 +44,19 @@ export const POST = async (req: NextRequest) => {
     );
   }
 };
+
+export const GET = async () => {
+  try {
+    const numberOfMachine = await prisma.machine.count();
+    return NextResponse.json(
+      { success: true, count: numberOfMachine },
+      { status: 200 },
+    )
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      { message: "Internal Server Error" },
+      { status: 500 },
+    )
+  }
+}

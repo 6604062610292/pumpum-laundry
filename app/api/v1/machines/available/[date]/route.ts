@@ -7,8 +7,6 @@ export const GET = async (
 ) => {
   try {
     const { date } = await params;
-    // console.log(date);
-
     const reserved = await prisma.queue.findMany({
       where: {
         startTime: {

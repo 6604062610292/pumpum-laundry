@@ -28,7 +28,7 @@ export default function UserQueueTable({ data }: Props) {
       <TableBody>
         {data.map((q) => (
           <TableRow key={q.id}>
-            <TableCell>{q.id.slice(0, 5)}</TableCell>
+            <TableCell>{q.id.slice(0, 7)}</TableCell>
             <TableCell>{moment(q.queue_date).format("DD MMM Y")}</TableCell>
             <TableCell>{q.status.toString()}</TableCell>
           </TableRow>
