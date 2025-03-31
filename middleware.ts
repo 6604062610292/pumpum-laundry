@@ -1,31 +1,28 @@
 import { NextResponse } from "next/server";
-
+import { verifyRequestOrigin } from "oslo/request";
 import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
-  // if (request.method === "GET") {
-  //   return NextResponse.next();
-  // }
-  // const originHeader = request.headers.get("Origin");
-  // // NOTE: You may need to use `X-Forwarded-Host` instead
-  // const hostHeader = request.headers.get("Host");
-  // if (originHeader === null || hostHeader === null) {
-  //   return new NextResponse(null, {
-  //     status: 403,
-  //   });
-  // }
-  // let origin: URL;
-  // try {
-  //   origin = new URL(originHeader);
-  // } catch {
-  //   return new NextResponse(null, {
-  //     status: 403,
-  //   });
-  // }
-  // if (origin.host !== hostHeader) {
-  //   return new NextResponse(null, {
-  //     status: 403,
-  //   });
-  // }
+export async function middleware(req: NextRequest): Promise<NextResponse> {
+  if (req.method === "GET") {
+    return NextResponse.next();
+  }
+
+  const originHeader = req.headers.get("Origin");
+  const hostHeader = req.headers.get("Host");
+  if (
+    !originHeader ||
+    !hostHeader ||
+    !verifyRequestOrigin(originHeader, [hostHeader])
+  ) {
+    return NextResponse.json(
+      {
+        error: "Unauthorized",
+      },
+      {
+        status: 401,
+      }
+    );
+  }
+
   return NextResponse.next();
 }
