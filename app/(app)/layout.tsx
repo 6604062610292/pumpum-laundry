@@ -28,7 +28,6 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${prompt.className} antialiased bg-blue-50`}>
         {children}
-        <Navigation />
       </body>
     </html>
   );
