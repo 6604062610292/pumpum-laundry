@@ -1,6 +1,9 @@
 // import { nowInThai } from "@/lib/date/thai/provider";
 import { prisma } from "@/lib/prisma";
-import { ZCustomerQueueSchema } from "@/lib/schema/order.schema";
+import {
+  ZCustomerQueueSchema,
+  ZManageQueueSchema,
+} from "@/lib/schema/order.schema";
 import moment from "moment-timezone";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -151,5 +154,73 @@ export const GET = async (req: NextRequest) => {
     return NextResponse.json({ success: true, queues }, { status: 200 });
   } catch (err: unknown) {
     console.log(err);
+  }
+};
+
+export const PATCH = async (req: NextRequest) => {
+  const formBody = await req.json();
+  const userBody = ZManageQueueSchema.safeParse(formBody);
+  if (!userBody.success) {
+    return NextResponse.json(
+      {
+        error: userBody.error.flatten(),
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+
+  try {
+    const { machine_id, queue_id, status } = userBody.data;
+    // Is queue exist?
+    const queue = await prisma.queue.findUnique({
+      where: {
+        id: queue_id,
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (!queue) {
+      return NextResponse.json(
+        {
+          error: "ไม่พบคิวดังกล่าว",
+        },
+        {
+          status: 409,
+        }
+      );
+    }
+
+    // update
+    await prisma.queue.update({
+      where: {
+        id: queue.id,
+      },
+      data: {
+        machineId: machine_id,
+        status,
+      },
+    });
+
+    return NextResponse.json(
+      {
+        message: "อัพเดตสำเร็จ",
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json(
+      {
+        error: "Internal Server Error",
+      },
+      {
+        status: 500,
+      }
+    );
   }
 };
