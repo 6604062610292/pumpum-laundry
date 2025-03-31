@@ -3,15 +3,13 @@
 import { Queue } from "@prisma/client";
 
 type Props = {
-    queue: Queue;
-}
+  queue: Queue;
+};
 
-export default function ManageQueueModal({queue} : Props) {
-    async function onSubmit(values : ) {
-        
-    }
+export default function ManageQueueModal({ queue }: Props) {
+  // async function onSubmit(values : ) {
 
-    return (
+  // }
 
-    )
+  return <></>;
 }
