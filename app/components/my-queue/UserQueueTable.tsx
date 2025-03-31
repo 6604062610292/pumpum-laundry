@@ -21,6 +21,7 @@ export default function UserQueueTable({ data }: Props) {
       <TableHeader>
         <TableRow>
           <TableHead>ID</TableHead>
+          <TableHead>จองเมื่อ</TableHead>
           <TableHead>เวลาที่จอง</TableHead>
           <TableHead>สถานะ</TableHead>
         </TableRow>
@@ -29,7 +30,10 @@ export default function UserQueueTable({ data }: Props) {
         {data.map((q) => (
           <TableRow key={q.id}>
             <TableCell>{q.id.slice(0, 7)}</TableCell>
-            <TableCell>{moment(q.queue_date).format("DD MMM Y")}</TableCell>
+            <TableCell>
+              {moment(q.queue_date).format("D MMM Y HH:mm")}
+            </TableCell>
+            <TableCell>{moment(q.startTime).format("D MMM Y HH:mm")}</TableCell>
             <TableCell>{q.status.toString()}</TableCell>
           </TableRow>
         ))}
