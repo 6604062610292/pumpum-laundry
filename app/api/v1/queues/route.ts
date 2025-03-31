@@ -1,9 +1,6 @@
 // import { nowInThai } from "@/lib/date/thai/provider";
 import { prisma } from "@/lib/prisma";
-import {
-  ZCustomerQueueSchema,
-  ZManageQueueSchema,
-} from "@/lib/schema/order.schema";
+import { ZManageQueueSchema } from "@/lib/schema/order.schema";
 import moment from "moment-timezone";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -46,6 +43,7 @@ export const POST = async (req: NextRequest) => {
     const endTime = new Date(startTime.getTime() + 29 * 60 * 1000);
     const avalibleMachines = await prisma.machine.findMany({
       where: {
+        is_active: true,
         queues: {
           none: {
             AND: [
