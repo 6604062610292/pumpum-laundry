@@ -5,6 +5,7 @@ import {
   MonitorCog,
   Shirt,
   UserRoundPen,
+  Users,
   WashingMachine,
 } from "lucide-react";
 import Link from "next/link";
@@ -59,6 +60,12 @@ export default async function Home() {
                   label="ประวัติ"
                   icon=<FileClock size={40} />
                   href="/admin/queue"
+                />
+                {/* User list */}
+                <LargeNavigationButton
+                  label="รายชื่อผู้ใช้"
+                  icon=<Users size={40} />
+                  href="/admin/users"
                 />
               </>
             )}
