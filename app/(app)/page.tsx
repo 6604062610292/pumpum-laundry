@@ -68,12 +68,6 @@ export default async function Home() {
                   icon=<Users size={40} />
                   href="/admin/users"
                 />
-                {/* User list */}
-                <LargeNavigationButton
-                  label="รายชื่อผู้ใช้"
-                  icon=<Users size={40} />
-                  href="/admin/users"
-                />
               </>
             )}
           </div>
