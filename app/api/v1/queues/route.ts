@@ -44,6 +44,7 @@ export const POST = async (req: NextRequest) => {
     const avalibleMachines = await prisma.machine.findMany({
       where: {
         is_active: true,
+        is_available: true,
         queues: {
           none: {
             AND: [
@@ -78,6 +79,16 @@ export const POST = async (req: NextRequest) => {
         startTime: startTime,
         endTime: new Date(startTime.getTime() + 29 * 60 * 1000),
         machineId: avalibleMachines[0].id,
+      },
+    });
+
+    // Mark machine as busy
+    await prisma.machine.update({
+      where: {
+        id: avalibleMachines[0].id,
+      },
+      data: {
+        is_available: false,
       },
     });
 

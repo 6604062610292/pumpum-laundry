@@ -39,8 +39,8 @@ export default async function Page() {
   });
 
   return (
-    <main className="h-screen w-full p-6">
-      <div className="bg-white w-full p-6 rounded-lg shadow-lg lg:max-w-xl xl:max-w-2xl">
+    <main className="h-screen w-full flex justify-center p-6">
+      <div className="bg-white w-full p-6 rounded-lg shadow-lg h-fit lg:max-w-xl xl:max-w-2xl">
         <div className="flex justify-between">
           <h1 className="text-3xl">รายชื่อผู้ใช้</h1>
           <BackButton />

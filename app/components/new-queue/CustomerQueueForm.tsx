@@ -68,6 +68,7 @@ function generateTimeSlots(
 
 export default function CustomerQueueForm({ user_id }: Props) {
   const router = useRouter();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [totalMachine, setTotalMachine] = useState<number>(-1);
   const [timeSlots, setTimeSlots] = useState<{ id: number; time: TimeSlot }[]>(
     []
@@ -82,6 +83,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
   });
 
   async function onSubmit(values: z.infer<typeof ZCustomerQueueSchema>) {
+    setIsSubmitting(true);
     values.start_time = moment(values.start_time).toDate();
     toast.loading("กำลังจองคิว", {
       id: "form-toast",
@@ -102,9 +104,11 @@ export default function CustomerQueueForm({ user_id }: Props) {
           id: "form-toast",
         });
       });
+    setIsSubmitting(false);
   }
 
   async function getAvalibleSlotsTime() {
+    setIsSubmitting(true);
     setTimeSlots([]);
     try {
       const today = moment(form.getValues().booking_date).format("YYYY-MM-DD");
@@ -142,6 +146,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
       });
       console.error(err);
     }
+    setIsSubmitting(false);
   }
 
   function countOverlapQueue(timeSlot: TimeSlot): number {
@@ -213,6 +218,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
             type="button"
             className="bg-orange-400 hover:bg-orange-500"
             onClick={() => getAvalibleSlotsTime()}
+            disabled={isSubmitting}
           >
             ดูช่วงเวลาที่ว่าง
           </Button>
@@ -292,6 +298,7 @@ export default function CustomerQueueForm({ user_id }: Props) {
             // disabled={form.getValues().start_time == null}
             size="lg"
             className="btn-blue text-lg w-full"
+            disabled={isSubmitting}
           >
             จองคิว
           </Button>
