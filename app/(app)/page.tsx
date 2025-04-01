@@ -59,7 +59,13 @@ export default async function Home() {
                 <LargeNavigationButton
                   label="ประวัติ"
                   icon=<FileClock size={40} />
-                  href="/admin/queue"
+                  href="/admin/history"
+                />
+                {/* User list */}
+                <LargeNavigationButton
+                  label="รายชื่อผู้ใช้"
+                  icon=<Users size={40} />
+                  href="/admin/users"
                 />
                 {/* User list */}
                 <LargeNavigationButton
