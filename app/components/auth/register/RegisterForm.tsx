@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Textarea } from "@/components/ui/textarea";
+import Image from "next/image";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -55,9 +56,9 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="w-full max-w-xs md:max-w-[300px] border p-4 space-y-2 rounded-lg">
-      <div className="flex gap-1 items-center">
-        <h1 className="text-2xl">🫧</h1>
+    <div className="w-full bg-white shadow-lg max-w-xs md:max-w-[300px] border p-4 space-y-2 rounded-lg">
+      <div className="flex flex-col gap-1 items-center">
+        <Image src={"/logo.png"} alt="Logo" width={256} height={256} />
         <h1 className="text-2xl">สมัครสมาชิก</h1>
       </div>
       <Form {...form}>

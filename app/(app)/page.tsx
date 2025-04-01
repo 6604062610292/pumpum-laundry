@@ -8,6 +8,7 @@ import {
   Users,
   WashingMachine,
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -19,7 +20,7 @@ export default async function Home() {
       <section className="md:max-w-md w-full">
         {/* Welcome section */}
         <div className="flex flex-col gap-4 items-center justify-center">
-          <h1 className="text-4xl font-bold text-sky-500">Pumpum Laundry</h1>
+          <Image src={"/logo.png"} alt="Logo" width={256} height={256} />
           {/* Start navigation */}
           <div className="grid grid-cols-2 gap-4 w-[325px]">
             {/* จองคิว */}

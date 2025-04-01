@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${prompt.className} antialiased w-full h-screen max-h-screen flex justify-center items-center`}
+        className={`${prompt.className} antialiased w-full h-screen max-h-screen flex justify-center items-center bg-gradient-to-tr from-blue-100 to-sky-200`}
       >
         {children}
         <Toaster richColors toastOptions={{ className: prompt.className }} />
