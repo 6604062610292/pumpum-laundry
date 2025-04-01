@@ -3,7 +3,6 @@ import { Prompt } from "next/font/google";
 import "../globals.css";
 import { getCurrentSession } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import Navigation from "../components/Navigation";
 import { Toaster } from "sonner";
 
 const prompt = Prompt({
@@ -27,7 +26,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${prompt.className} antialiased bg-blue-50`}>
+      <body
+        className={`${prompt.className} antialiased bg-gradient-to-tr from-blue-100 to-sky-200`}
+      >
         {children}
         <Toaster richColors position="bottom-right" />
       </body>
