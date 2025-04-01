@@ -21,7 +21,7 @@ export default function UserQueueTable({ data }: Props) {
       <TableHeader>
         <TableRow>
           <TableHead>ID</TableHead>
-          <TableHead>จองเมื่อ</TableHead>
+          <TableHead>สร้างเมื่อ</TableHead>
           <TableHead>เวลาที่จอง</TableHead>
           <TableHead>สถานะ</TableHead>
         </TableRow>
