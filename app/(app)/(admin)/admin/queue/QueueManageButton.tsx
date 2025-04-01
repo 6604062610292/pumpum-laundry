@@ -93,7 +93,7 @@ export default function QueueManageButton(props: Props) {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="w-full flex justify-start">
-            คิว {queue.id.slice(0, 5)}
+            คิว {queue.id.slice(0, 8)}
           </AlertDialogTitle>
           <AlertDialogDescription className="w-full grid grid-cols-2">
             {`${queue.user.name.split(" ")[0]}`}
