@@ -58,7 +58,7 @@ export default async function Home() {
                 <LargeNavigationButton
                   label="ประวัติ"
                   icon=<FileClock size={40} />
-                  href="/admin/queue"
+                  href="/admin/history"
                 />
               </>
             )}
