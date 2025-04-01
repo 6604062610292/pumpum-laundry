@@ -9,6 +9,7 @@ import {
 import { prisma } from "@/lib/prisma";
 import moment from "moment";
 import QueueManageButton from "./QueueManageButton";
+import BackButton from "@/app/components/BackButton";
 
 const filterName = (full_name: string) => {
   if (full_name.split(" ").length < 1) return full_name;
@@ -29,8 +30,11 @@ export default async function Page() {
 
   return (
     <main className="h-screen w-full flex flex-col items-center p-6">
-      <div className="bg-white space-y-1 rounded-lg drop-shadow-lg p-4 w-full md:max-w-md lg:max-w-lg">
-        <h1 className="text-3xl">คิวปัจจุบัน</h1>
+      <div className="bg-white space-y-1 rounded-lg drop-shadow-lg p-4 w-full md:max-w-lg lg:max-w-xl">
+        <div className="flex justify-between">
+          <h1 className="text-3xl">คิวปัจจุบัน</h1>
+          <BackButton />
+        </div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -47,7 +51,7 @@ export default async function Page() {
                 <TableHead>
                   <QueueManageButton queue={q} />
                 </TableHead>
-                <TableCell>{q.id.slice(0, 5)}</TableCell>
+                <TableCell>{q.id.slice(0, 8)}</TableCell>
                 <TableCell>{filterName(q.user.name)}</TableCell>
                 <TableCell>
                   {moment(q.queue_date).format("DD MMM Y HH:mm")} น.

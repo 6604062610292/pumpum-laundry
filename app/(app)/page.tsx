@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { getCurrentSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
-import { cn } from "@/lib/utils";
 import {
+  FileClock,
   ListStart,
   MonitorCog,
   Shirt,
@@ -15,33 +13,12 @@ import { ReactNode } from "react";
 export default async function Home() {
   const { user } = await getCurrentSession();
 
-  // current ready machine
-  const cr_machine = await prisma.machine.findMany({
-    where: {
-      is_available: true,
-    },
-  });
-
   return (
     <main className="w-full h-screen flex justify-center items-center p-6">
       <section className="md:max-w-md w-full">
         {/* Welcome section */}
         <div className="flex flex-col gap-4 items-center justify-center">
-          <h1 className="text-4xl font-bold text-blue-700">Pumpum Laundry</h1>
-          {/* Raedy to use machine counter */}
-          <div className="bg-white shadow-lg py-2 px-2.5 rounded-lg">
-            <div></div>
-            <div>
-              <p
-                className={cn(
-                  "text-lg",
-                  cr_machine.length === 0 && "text-zinc-600"
-                )}
-              >
-                {cr_machine.length} เครื่องพร้อมใช้งาน
-              </p>
-            </div>
-          </div>
+          <h1 className="text-4xl font-bold text-sky-500">Pumpum Laundry</h1>
           {/* Start navigation */}
           <div className="grid grid-cols-2 gap-4 w-[325px]">
             {/* จองคิว */}
@@ -77,6 +54,12 @@ export default async function Home() {
                   icon=<WashingMachine size={40} />
                   href="/admin/machines"
                 />
+                {/* Queue history */}
+                <LargeNavigationButton
+                  label="ประวัติ"
+                  icon=<FileClock size={40} />
+                  href="/admin/queue"
+                />
               </>
             )}
           </div>
@@ -96,7 +79,7 @@ interface Props {
 const LargeNavigationButton = ({ icon, label, href }: Props) => {
   return (
     <Link href={href} passHref>
-      <div className="p-4 bg-white w-full grid rounded-md gap-y-1.5 shadow-lg text-blue-500 items-start  transition-colors duration-200">
+      <div className="p-4 bg-white w-full grid rounded-md gap-y-1.5 shadow-lg text-sky-500 items-start transition-all duration-200 hover:scale-105">
         <div className="mx-auto">{icon}</div>
         <p className="text-xl text-center">{label}</p>
       </div>
